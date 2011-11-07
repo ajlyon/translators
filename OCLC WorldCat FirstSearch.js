@@ -32,6 +32,8 @@ function processURLs(urls) {
 	
 	Zotero.Utilities.HTTP.doPost(newUrl,
 	'exportselect=record&exporttype=plaintext', function(text) {
+		// XXX
+		Z.debug(text);
 		var lineRegexp = new RegExp();
 		lineRegexp.compile("^([\\w() ]+): *(.*)$");
 		
