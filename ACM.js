@@ -69,7 +69,6 @@ function doWeb(doc, url) {
 
 	Zotero.selectItems(items, function (items) {
 	  if (!items) {
-		Zotero.done();
 		return true;
 	  }
 	  for (var i in items) {
@@ -78,12 +77,15 @@ function doWeb(doc, url) {
 	  Zotero.Utilities.processDocuments(URIs, scrape, function () {
 		Zotero.done();
 	  });
+
+	  Zotero.wait();
 	});
   } else {
 	URIs.push(url);
 	Zotero.Utilities.processDocuments(URIs, scrape, function () {
 	  Zotero.done();
 	});
+        Zotero.wait();
   }
 }
 //get abstract where possible - this fails frequently
@@ -135,7 +137,7 @@ function scrape(doc) {
 	  if (item.itemType == detectWeb(doc,url)){
 	  item.complete();
 	  }
-	  else return "false"
+	  else return false;
 	});
 
 
