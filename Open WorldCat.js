@@ -36,8 +36,7 @@ function getZoteroType(iconSrc) {
  */
 
 function scrape(doc, url) {
-	var newurl = url.replace(/\&.+/, "?client=worldcat.org-detailed_record&page=endnote");
-	//Z.debug(newurl)
+	var newurl = url.replace(/[?&][^/]*$|$/, "?client=worldcat.org-detailed_record&page=endnote");
 	Zotero.Utilities.HTTP.doGet(newurl, function (text) {
 		//Zotero.debug("RIS: " + text)
 		//LA is not an actual RIS tag, but we like to get that information where we can
@@ -120,6 +119,7 @@ function doWeb(doc, url) {
 				Zotero.Utilities.processDocuments(articles, scrape, function () {
 					Zotero.done();
 				});
+				Zotero.wait();
 			});
 		} else { //single item in search results, don't display a select dialog
 			var title = doc.evaluate('//div[@class="name"]/a[1]', doc, null, XPathResult.ANY_TYPE, null).iterateNext();
@@ -128,10 +128,10 @@ function doWeb(doc, url) {
 			Zotero.Utilities.processDocuments(article, scrape, function () {
 				Zotero.done();
 			});
+			Zotero.wait();
 		}
 	} else { // regular single item	view
 		scrape(doc, url);
-		Zotero.done();
 	}
 }
 
